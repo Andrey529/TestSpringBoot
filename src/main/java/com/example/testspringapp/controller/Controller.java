@@ -3,10 +3,7 @@ package com.example.testspringapp.controller;
 import com.example.testspringapp.TestSpringAppApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -38,5 +35,15 @@ public class Controller {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-
+    @PostMapping("/add/{firstNumber}/{secondNumber}")
+    public ResponseEntity<?> create(@PathVariable String firstNumber, @PathVariable String secondNumber) {
+        try {
+            int num1 = Integer.parseInt(firstNumber);
+            int num2 = Integer.parseInt(secondNumber);
+            int sum = num1 + num2;
+            return new ResponseEntity<>(String.valueOf(sum), HttpStatus.OK);
+        } catch (Exception exception){
+            return new ResponseEntity<>("invalid arguments\n" + exception, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
