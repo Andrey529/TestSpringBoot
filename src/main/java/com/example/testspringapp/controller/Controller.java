@@ -44,7 +44,7 @@ public class Controller {
             int num2 = Integer.parseInt(secondNumber);
             int sum = num1 + num2;
             return new ResponseEntity<>(String.valueOf(sum), HttpStatus.OK);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return new ResponseEntity<>("invalid arguments\n" + exception, HttpStatus.BAD_REQUEST);
         }
     }
@@ -85,6 +85,11 @@ public class Controller {
     public String generateNumber(@RequestParam(value = "count", defaultValue = "10") Integer count) {
         String regex = String.format("[1-9]{%s}", count.toString());
         return faker.regexify(regex);
+    }
+
+    @GetMapping("/generate/numberBetween")
+    public String generateNumber(@RequestParam(value = "min", defaultValue = "0") Integer min, @RequestParam(value = "max", defaultValue = "100") Integer max) {
+        return String.format("%s", faker.number().numberBetween(min, max));
     }
 
     @GetMapping("/generate/company")
