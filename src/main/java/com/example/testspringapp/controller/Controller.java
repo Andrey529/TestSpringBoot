@@ -1,5 +1,7 @@
 package com.example.testspringapp.controller;
 
+import com.example.testspringapp.Models.Table;
+import com.example.testspringapp.Serialization.TableSerializer;
 import com.example.testspringapp.TestSpringAppApplication;
 import com.github.javafaker.Faker;
 import org.springframework.http.HttpStatus;
@@ -116,4 +118,16 @@ public class Controller {
         return String.format("%s\n", faker.name().fullName());
     }
 
+    @GetMapping("/dbase")
+    @ResponseBody
+    public ResponseEntity<?> getDatabase() {
+        String[] columns = {"id", "name", "desc"};
+        String[] dataTypes = {"integer", "string", "string"};
+        String[] constraintTypes = {"PK", "", ""};
+        Table table = new Table(columns, dataTypes, constraintTypes);
+
+        TableSerializer serializer = new TableSerializer();
+        String json = serializer.serialize(table);
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
 }
